@@ -1,5 +1,6 @@
 import boom from '@hapi/boom';
 import env from '../../configs/index';
+import logger from '../libs/logger';
 
 export const catchErrors = (fn) => (req, res, next) => fn(req, res, next).catch(next);
 
@@ -19,16 +20,17 @@ export const notFoundHandler = (req, res) => {
   res.status(statusCode).json(payload);
 };
 
-export const wrapErrors = (err, req, res, next) => (
-  !err.isBoom ? next(boom.badImplementation(err)) : next(err)
-);
+// eslint-disable-next-line
+export const logError = (err, req, res, next) => {
+  logger.error(err);
 
-export const errorHandler = (err, req, res) => {
-  const {
-    output: { statusCode, payload },
-  } = err;
-
-  res
-    .status(statusCode)
-    .json(withErrorStack({ ...payload, data: err.data || null }, err.stack));
+  if (err.isBoom) {
+    res.status(err.output.statusCode).json({
+      error: true, message: err.output.payload.message,
+    });
+  } else {
+    res.status(500).json({
+      error: true, message: err.message.trim() || 'Internal server error',
+    });
+  }
 };
