@@ -1,37 +1,39 @@
-# Rolesy.io
-Application to managment recruitment process
+# Pulpomatic OpenAID
+Application to get AID global information
 
 ## General folder structure
 The general structure of the project
 ````
 .
 ├── package.json
+├── logs
+├── node_modules
 ├── .gitignore
 ├── .env
+├── .babelrc
+├── .eslintrc.cjs
 ├── .env.example
 └── src
     ├── app.js
     ├── index.js
     ├── components
-    │   └── new-component
-    │       ├── controllers
-    │       ├── services
-    │       ├── schemas
-    │       └── new-component.router.js
+    │   └── v1
+    │       └── component
+    |           ├── controllers
+    |           ├── DAO
+    │           ├── services
+    │           ├── schemas
+    │           └── router.js
     ├── configs
     │   └── index.js
-    ├── databases
+    ├── db
     │   ├── mongoose.js
-    │   └── sequelize.js
+    │   └── redis.js
     ├── models
     │   └── entity.model.js
-    ├── providers
     ├── utils
-    │   ├── middlewares
-    │   ├── mocks
-    │   └── libs
-    └── routers
-        └── main.router.js
+        ├── middlewares
+        └── libs
 
 ````
 
