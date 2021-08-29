@@ -16,5 +16,7 @@ module.exports = {
     'import/no-named-as-default': 0,
     'import/no-named-as-default-member': 0,
     'class-methods-use-this': 0,
+    'func-names': 0,
+    'no-await-in-loop': 0,
   },
 };
