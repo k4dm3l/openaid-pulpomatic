@@ -3,6 +3,8 @@ import compression from 'compression';
 import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
+import mongoose from 'mongoose';
+import os from 'os';
 
 import Cors from './configs/cors';
 import env from './configs/index';
@@ -34,13 +36,20 @@ app.use(express.urlencoded({ extended: true, limit: '50 mb', parameterLimit: 500
 app.use(morgan(env.ENVIRONMENT === 'DEVELOPMENT' ? 'dev' : 'combined'));
 
 // Routes
-app.use('/health-check', (req, res) => res.status(200).json({
+routerV1(app);
+
+app.get('/', (req, res) => res.status(200).send('Welcome to Pulpomatic OpenAID API'));
+app.get('/health-check', (req, res) => res.status(200).json({
   status: 200,
   message: 'Health check',
-  data: null,
+  data: {
+    server: {
+      os: os.version(),
+      host: os.hostname(),
+    },
+    dbStatus: mongoose.connection.readyState === 1 ? 'CONNECTED' : 'DISCONNECTED',
+  },
 }));
-
-routerV1(app);
 
 // Not found resource error handler
 app.use(notFoundHandler);
