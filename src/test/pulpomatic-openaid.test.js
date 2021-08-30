@@ -97,6 +97,14 @@ describe('Component - pulpomatic-openaid', () => {
     expect(response.body.data).toMatchObject(expectResult);
   }, 30000);
 
+  test('Endpoint - Get Formated Information - Should return a status 401 no authorized', async () => {
+    await mongoDb.connectMongoDB();
+
+    await api.get('/api/v1/pulpomatic-aid?country=IQ&year=2010')
+      .expect('Content-Type', /application\/json/)
+      .expect(401);
+  }, 30000);
+
   afterAll(() => {
     mongoose.connection.close();
   });
