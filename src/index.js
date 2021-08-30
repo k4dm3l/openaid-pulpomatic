@@ -1,4 +1,4 @@
 import env from './configs/index';
-import startServer from './app';
+import appConfig from './app';
 
-startServer(env.PORT);
+appConfig.startServer(env.PORT);

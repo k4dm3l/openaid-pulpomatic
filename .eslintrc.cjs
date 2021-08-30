@@ -18,5 +18,8 @@ module.exports = {
     'class-methods-use-this': 0,
     'func-names': 0,
     'no-await-in-loop': 0,
+    'import/no-extraneous-dependencies': 0,
+    'jest/expect-expect': 0,
+    'jest/no-done-callback': 0,
   },
 };

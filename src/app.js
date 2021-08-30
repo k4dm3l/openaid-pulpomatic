@@ -72,4 +72,7 @@ const startServer = async (port) => {
   }
 };
 
-export default startServer;
+export default {
+  startServer,
+  app,
+};
