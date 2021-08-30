@@ -1,9 +1,10 @@
 import joi from 'joi';
 
 const getResourcesByCountryCodeAndLastFiveYearsSchema = joi.object({
-  country: joi.string().required().messages({
-    'any.required': 'Valid country code is required',
-  }),
+  country: joi.string().uppercase().max(2).required()
+    .messages({
+      'any.required': 'Valid country code is required',
+    }),
   year: joi.number().integer().positive().min(1950)
     .max(2080)
     .required()
