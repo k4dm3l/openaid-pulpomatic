@@ -6,6 +6,7 @@ import env from '../../../../configs';
 import { getDatabaseUrlRedis } from '../../../../utils/libs/utils';
 import logger from '../../../../utils/libs/logger';
 import Redis from '../../../../db/redis';
+import reportDao from '../DAO';
 
 const redisDb = new Redis(getDatabaseUrlRedis(env.ENVIRONMENT || 'DEVELOPMENT'), env.REDIS_PASSWORD);
 
@@ -129,6 +130,25 @@ const getPulpomaticAIDPerYear = async ({ country, year }) => {
 
   const groupedResults = groupByOngName(results);
   const response = calculateFormatedResults(groupedResults);
+
+  if (!await reportDao.getReportByIdentifier(`${country}_${year}`)) {
+    const arrayResponse = Object.entries(response);
+    const mappedReport = [];
+
+    if (arrayResponse && arrayResponse.length) {
+      arrayResponse.forEach((agency) => {
+        mappedReport.push({
+          agency: agency[0] || '',
+          contribution: agency[1] || 0,
+        });
+      });
+
+      await reportDao.newReport({
+        identifier: `${country}_${year}`,
+        report: mappedReport,
+      });
+    }
+  }
 
   return { year, results: response };
 };
