@@ -166,7 +166,7 @@ const getPulpomaticAIDLastFiveYears = async ({ country, year }) => {
       const cachedObject = {};
       cachedObject[`${resolvedPromise.year}_${country}`] = resolvedPromise.results;
 
-      const redisResult = await redisSetAsync(`${country}_${resolvedPromise.year}`, JSON.stringify(cachedObject), 'EX', 600);
+      const redisResult = await redisSetAsync(`${country}_${resolvedPromise.year}`, JSON.stringify(cachedObject), 'EX', Number(env.REDIS_EXPIRATION_TIME_API_DATA));
       if (!redisResult || redisResult !== 'OK') {
         logger.error('Error redis connection');
       }
